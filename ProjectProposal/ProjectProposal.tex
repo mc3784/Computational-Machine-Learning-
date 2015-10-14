@@ -1,0 +1,57 @@
+
+\documentclass[final,leqno,onefignum,onetabnum]{siamltexmm}
+
+\title{Project proposal: Grasp-and-Lift EEG Detection\thanks{Any comment about who support this work}} 
+
+\author{Anirudhan Jegannathan Rajagopalan, Michele Cer\'u\thanks{New York University (\email{anirudhan.jegannathan@nyu.edu; mc3784@nyu.edu}). Questions, comments, or corrections
+to this document may be directed to that email address.}}
+
+\begin{document}
+\maketitle
+\newcommand{\slugmaster}{%
+\slugger{siads}{xxxx}{xx}{x}{x--x}}%slugger should be set to juq, siads, sifin, or siims
+
+\begin{abstract}
+Here abstract to write... 
+\end{abstract}
+
+\begin{keywords}\end{keywords}
+
+\begin{AMS}\end{AMS}
+
+
+\pagestyle{myheadings}
+\thispagestyle{plain}
+\markboth{TEX PRODUCTION}{USING SIAM'S MM \LaTeX\ MACROS}
+
+\section{Introduction}
+The main goal of this project  is to identify hand motions from electroencephalogram (EEG) recordings, as described in \cite{kaggle}. The Data has been collected in many series of Grasp and Lift, meaning that the subject grasp an object it hold it for some seconds and then replace it (as explain in detail in \cite{experiment} ). 
+The Data set consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.\\
+The purpose of the project is to detect the following six events, that always happens in the exactly same order: 
+\begin{enumerate} 
+\item HandStart
+\item FirstDigitTouch
+\item BothStartLoadPhase
+\item LiftOff
+\item Replace
+\item BothReleased
+\end{enumerate}
+In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not mutually exclusive meaning that more then one of the can be 1 at the same time.\\
+
+%\section{Performance metric} 
+%The metric we are going to use will be based on the multi class precision-recal:
+
+
+%\Appendix
+%\section{The use of appendices}
+%\appendix
+%\section{Title of appendix} Each one will be sequentially lettered
+
+\begin{thebibliography}{1}
+\bibitem{kaggle} Kaggle competition:  https://www.kaggle.com/c/grasp-and-lift-eeg-detection
+\bibitem{experiment} http://www.nature.com/articles/sdata201447
+\end{thebibliography} 
+
+
+\end{document}
+%% end of file `docultexmm.tex'
