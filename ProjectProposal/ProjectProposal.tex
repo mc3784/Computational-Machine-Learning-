@@ -25,18 +25,51 @@ Here abstract to write...
 \markboth{TEX PRODUCTION}{USING SIAM'S MM \LaTeX\ MACROS}
 
 \section{Introduction}
-The main goal of this project  is to identify hand motions from electroencephalogram (EEG) recordings, as described in \cite{kaggle}. The Data has been collected in many series of Grasp and Lift, meaning that the subject grasp an object it hold it for some seconds and then replace it (as explain in detail in \cite{experiment} ). 
-The Data set consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.\\
-The purpose of the project is to detect the following six events, that always happens in the exactly same order: 
+%motivation (real-world application, social good, etc.)
+The main goal of this project  is to identify hand motions from scalp electroencephalogram (EEG) recordings, as described in the kaggle competition that provides the data \cite{kaggle}. The dataset consists of 3,936 Grasp and Lift (GAL) series, meaning that the analysed subject grasped an object, held it for some seconds and then replaced it (as explain in detail in \cite{experiment}). Every time, without acknowledging the subject,  two main property  of the object were changed: the  weight, that could be 165, 330 or 660 g, and the contact surface, that could be sandpaper, suede or silk. In this context there are six events that represents different stages of the hand movements and that we aim to predict though EEG analysis: 
+%The 6 events were representing different stages of a sequence of hand movements (hand starts moving, starts lifting the object, etc.).
+%new EEG-based techniques for prosthetic device control.
 \begin{enumerate} 
-\item HandStart
-\item FirstDigitTouch
-\item BothStartLoadPhase
-\item LiftOff
-\item Replace
-\item BothReleased
+\item HandStart: the beginning of the movement.
+\item FirstDigitTouch: making contact with the object.  
+\item BothStartLoadPhase: starting to load the object. 
+\item LiftOff: holding the object up.
+\item Replace: replacing the object in its original position.
+\item BothReleased: releasing the finger from the object. 
 \end{enumerate}
+The training dataset contains the exact moment when this events occurred during the GAL, that were measured using the 3D position of both the hand and object, electromyography signal (EMG) coming form the arm and the head muscles of the subject, and the force/torque applied to the object. An important restriction to take in account while trying to predict this event, is that for a GAL we can use only data collected in past series and not use the futures one. Meaning that when we analyse a subject performing  a GAL we can uses all the data generated in the past ones but not in the future one. This restriction is due to the fact that in real world application there is not access to future data.
+
+
+The study aims to find a correlation between the GAL and the EEG  that could be applied on developing techniques for the control of prosthetic devices. More in general EEG lay at the base of non invasive brain computer interface BCI \cite{BCI}, that doesn't depends on neuromuscular control and therefore could be used to help patient with heavy neuromuscular disorder to interact with the environment(such as patient who have lost hand function). 
+
+
+
+\section{performance criterion}
+(classification error, AUC, mean average-precision, etc.)
+
+\section{problem formulation}
+(write the mathematical equation)
+
+\section{algorithm}
+ (the one(s) used in the reference papers)
+
+\section{baseline method, algorithm, software}
+(including relevant bibliographic references/urls)\\
+
+
+
+
+
+
+\section{short description of the real-world datasets}
+(scales and size of the dataset, missing data, etc.)\\
+The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.\\
+The purpose of the project is to detect the following six events, that always happens in the exactly same order: 
+
 In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not mutually exclusive meaning that more then one of the can be 1 at the same time.\\
+ 
+
+
 
 %\section{Performance metric} 
 %The metric we are going to use will be based on the multi class precision-recal:
@@ -50,6 +83,9 @@ In the dataset each of this event correspond to a binary variable (1 if the even
 \begin{thebibliography}{1}
 \bibitem{kaggle} Kaggle competition:  https://www.kaggle.com/c/grasp-and-lift-eeg-detection
 \bibitem{experiment} http://www.nature.com/articles/sdata201447
+\bibitem{BCI}D. J. McFarland and J. R. Wolpaw. Brain-computer interfaces for communication and control.Commun. ACM, 54(5):60?66, May 2011.
+\bibitem{baseline}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
+
 \end{thebibliography} 
 
 
