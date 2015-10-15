@@ -54,7 +54,12 @@ The study aims to find a correlation between the GAL and the EEG  that could be 
  (the one(s) used in the reference papers)
 
 \section{baseline method, algorithm, software}
-(including relevant bibliographic references/urls)\\
+%(including relevant bibliographic references/urls)
+The kaggle competition winners \cite{kaggle} provided a solution based on three level. The first level is dedicated to features extraction using mainly two different methods. The first one uses Covariance matrices  estimated using a sliding window (of around 500 samples ). Considering the six event to predict and the absence of them we can model seven different brain states to predict. They estimated the geometric mean of the covariance matrices, producing in this way a seven dimensional feature vector. The second one is based on the fact that the signal contains predictive information in low frequency, so they used a  "Filter Bank" approach to extract this features. Then they combine the results obtained with this two methods to generate the final set of features. 
+The algorithms used 
+ 
+%a feature vector of size 7. This procedure can be viewed as a supervised manifold embedding with a Riemannian metric.
+
 
 
 
@@ -85,6 +90,7 @@ In the dataset each of this event correspond to a binary variable (1 if the even
 \bibitem{experiment} http://www.nature.com/articles/sdata201447
 \bibitem{BCI}D. J. McFarland and J. R. Wolpaw. Brain-computer interfaces for communication and control.Commun. ACM, 54(5):60?66, May 2011.
 \bibitem{baseline}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
+\bibitem{model}https://hal.inria.fr/hal-00830491/file/journal.pdf
 
 \end{thebibliography} 
 
