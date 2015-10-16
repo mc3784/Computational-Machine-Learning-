@@ -62,37 +62,6 @@ to this document may be directed to that email address.}}
   that could be decomposed as $F_{-\lambda}=L_\lambda^{'}L_\lambda$
 
 
-%Since the columns span multiple subjects and series, you should submit calibrated probabilities that fall on the same scale.
-\section{problem formulation}
-(write the mathematical equation)\\
-The first step is to extract features from the data. One possible feature could be the spectral analysis of each channel (as described in in \cite{features1}), or the mean  Then we will define an $M$ dimensional vector $X$ using all the features as component, to describe each sample of the dataset. Then, given a likelihood function $u_\lambda$, that depends on  a vector of parameters $\lambda$, we can define the score function of a sample as:
-\begin{equation}\label{Glambda}
-G_\lambda^X=\nabla_{\lambda }\log u_\lambda(X)  
-\end{equation}
-This gradient (which dimension depends only on $M$), represent the direction in which the parameters $\lambda$ should change in order to fit the model in a better way.
-Then the similarity between two samples in the dataset $X$, $Y$ it's given by the Fisher Kernel (as described in \cite{fisher}):
-\begin{equation}\label{fisherKernel}
-K(X,Y)=G_\lambda^{X^{'}}F_\lambda^{-1} G_\lambda^Y
-\end{equation} 
-where $F_\lambda$ is the Fisher information matrix:
-\begin{equation}
-F_\lambda=E_{x\sim u_\lambda}[ G_\lambda^XG_\lambda^{X^{'}}]
-\end{equation} 
-that could be decomposed as $F_{-1}^\lambda=L_\lambda^{'}L_\lambda$. Then the (\ref{fisherKernel}) could be written as a dot product between two vector:
-$$
-K(X,Y)=\mathcal{G}_\lambda^{X'}\mathcal{G}_\lambda^{Y}
-$$ 
-where:
-$$
-\mathcal{G}_\lambda^{X}=L_\lambda G_\lambda^X=L_\lambda \nabla_{\lambda }\log u_\lambda(X)  
-$$
-
->>>>>>> minor changes
-
-
-
-
-
   \section{algorithm}
   (the one(s) used in the reference papers)
 
