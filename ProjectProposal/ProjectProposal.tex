@@ -54,24 +54,14 @@ to this document may be directed to that email address.}}
 
 \section{Baseline method, algorithm, software}
 %(including relevant bibliographic references/urls)
-The Kaggle competition winners\cite{kaggle} provided a solution based on three levels. The first level is dedicated to features extraction using mainly two different methods. The first one uses Covariance matrices  estimated using a sliding window (of around 500 samples). Considering the six events to predict and the absence of them we can model seven different brain states to predict. They estimated the geometric mean of the covariance matrices, producing in this way a seven dimensional feature vector. The second one is based on the fact that the signal contains predictive information in low frequency, so they used a ``Filter Bank'' approach to extract this features. Then they combine the results obtained with this two methods to generate the final set of features. 
-The main algorithms used for this level are Logistic Regression, Convolutional Neural network and Recurrent Neural Network. 
- 
-%a feature vector of size 7. This procedure can be viewed as a supervised manifold embedding with a Riemannian metric.
+We consider the scripts with most accurate results in the Kaggle competition for baseline\cite{kaggleleaderboard}.  We use the first level implementation by \textit{Cat \& Dog}\cite{kagglewinners} as our baseline.
+The baseline method uses Logistic regression with LDA for providing an event specific view of the data.  There were also two level1 Neural Network approaches that were not event specific.
 
+The model consists of using a covariance matrix for encoding the spatial information between the electrodes.  It was found that low frequency data has considerable predective information.  So a ``Filter bank'' approach was used to give more weightage to low frequency data.
+ 
 \section{short description of the dataset}
 The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
 In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not all mutually exclusive meaning that some of  them could be 1 at the same time.  
- 
-
-  %\section{Performance metric} 
-  %The metric we are going to use will be based on the multi class precision-recal:
-
-
-  %\Appendix
-  %\section{The use of appendices}
-  %\appendix
-  %\section{Title of appendix} Each one will be sequentially lettered
 
   \begin{thebibliography}{1}
     \bibitem{kaggle} Kaggle competition:  https://www.kaggle.com/c/grasp-and-lift-eeg-detection
@@ -80,13 +70,11 @@ In the dataset each of this event correspond to a binary variable (1 if the even
 Commun. ACM, 54(5):60?66, May 2011.
     \bibitem{baseline}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
     \bibitem{model}https://hal.inria.fr/hal-00830491/file/journal.pdf
-
     \bibitem{features1}http://www.laccei.org/LACCEI2010-Peru/published/EInn156\_Delgado.pdf
     \bibitem{features2}Autoregressive Estimation of Short Segment Spectra for Computerized EEG Analysis Jansen, Ben H.Bourne, John R. Ward, James W. Department of Electrical and Biomedical Engineering, School of
 Engineering, School of Medicine, Vanderbilt University. 
-    \bibitem{fisher}https://hal.inria.fr/hal-00830491/file/journal.pdf
-
-
+    \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
+    \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
   \end{thebibliography} 
 
 
