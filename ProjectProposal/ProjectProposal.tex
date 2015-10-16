@@ -1,4 +1,5 @@
 \documentclass[final,leqno,onefignum,onetabnum]{siamltexmm}
+\usepackage{amsmath}
 
 \title{Project proposal: Grasp-and-Lift EEG Detection\thanks{From a Kaggle competition}} 
 
@@ -10,46 +11,65 @@ to this document may be directed to that email address.}}
 \newcommand{\slugmaster}{%
 \slugger{siads}{xxxx}{xx}{x}{x---x}}%slugger should be set to juq, siads, sifin, or siims
 
-  \begin{abstract}
-    This project aims to classify a human's hand motions from his EEG signal data.  This will help in developing Brain-Computer Interface prosthetic devices for restoring a patient's ability to perform basic daily tasks.
-    We are provided with time series EEG recordings of the subjects performing the hand actions which we wish to identify.
-    The baseline implemenation uses Convolutional Neural Networks for classifying the hand motion.  The baseline model has an accuracy of 0.98109 MCAUC\@.  
-    We propose to use Logistic regression with Stohastic Gradient Descent for detecting the hand motions with a performance greater than or equal to the baseline.
-  \end{abstract}
+\begin{abstract}
+  This project aims to classify a human's hand motions from his EEG signal data.  This will help in developing Brain-Computer Interface prosthetic devices for restoring a patient's ability to perform basic daily tasks.
+  We are provided with time series EEG recordings of the subjects performing the hand actions which we wish to identify.
+  The baseline implemenation uses Convolutional Neural Networks for classifying the hand motion.  The baseline model has an accuracy of 0.98109 MCAUC\@.  
+  We propose to use Logistic regression with Stohastic Gradient Descent for detecting the hand motions with a performance greater than or equal to the baseline.
+\end{abstract}
 
-  \pagestyle{myheadings}
-  \thispagestyle{plain}
-  \markboth{Grasp-and-Lift EEG Detection}{Grasp-and-Lift EEG Detection}
+\pagestyle{myheadings}
+\thispagestyle{plain}
+\markboth{Grasp-and-Lift EEG Detection}{Grasp-and-Lift EEG Detection}
 
-  \section{Introduction}
-  %motivation (real-world application, social good, etc.)
-  The main goal of this project is to identify hand motions from scalp Electroencephalogram (EEG) recordings, as described in the Kaggle competition\cite{kaggle}.
-  The dataset consists of 3,936 Grasp and Lift (GAL) series, meaning that the analysed subject grasped an object, held it for some seconds and then replaced it (as explained in detail in\cite{experiment}). 
-  Every time, without acknowledging the subject, two main properties of the object were changed: the  weight, that could be 165g, 330g or 660g, and the contact surface, that could be sandpaper, suede or silk.  In this context there are six events that represents different stages of the hand movements that we aim to predict thorough EEG analysis: 
-  \begin{enumerate} 
-    \item \textit{HandStart}: the beginning of the movement.
-    \item \textit{FirstDigitTouch}: making contact with the object.  
-    \item \textit{BothStartLoadPhase}: starting to load the object. 
-    \item \textit{LiftOff}: holding the object up.
-    \item \textit{Replace}: replacing the object in its original position.
-    \item \textit{BothReleased}: releasing the fingers from the object. 
-  \end{enumerate}
-  The training dataset contains the exact moment when this events occurred during the GAL, that were measured using the 3D position of both hand and object, electromyography signal (EMG) coming form the arm and the hand muscles of the subject, and the force/torque applied to the object. 
-  An important restriction to take in account while trying to predict this event, is that for a GAL we can use only data collected in past series and not use the futures one.  
-  This restriction is due to the fact that in a real world application there would be no access to future data.
+\section{Introduction}
+%motivation (real-world application, social good, etc.)
+The main goal of this project is to identify hand motions from scalp Electroencephalogram (EEG) recordings, as described in the Kaggle competition\cite{kaggle}.
+The dataset consists of 3,936 Grasp and Lift (GAL) series, meaning that the analysed subject grasped an object, held it for some seconds and then replaced it (as explained in detail in\cite{experiment}). 
+Every time, without acknowledging the subject, two main properties of the object were changed: the  weight, that could be 165g, 330g or 660g, and the contact surface, that could be sandpaper, suede or silk.  In this context there are six events that represents different stages of the hand movements that we aim to predict thorough EEG analysis: 
+\begin{enumerate} 
+  \item \textit{HandStart}: the beginning of the movement.
+  \item \textit{FirstDigitTouch}: making contact with the object.  
+  \item \textit{BothStartLoadPhase}: starting to load the object. 
+  \item \textit{LiftOff}: holding the object up.
+  \item \textit{Replace}: replacing the object in its original position.
+  \item \textit{BothReleased}: releasing the fingers from the object. 
+\end{enumerate}
+The training dataset contains the exact moment when this events occurred during the GAL, that were measured using the 3D position of both hand and object, electromyography signal (EMG) coming form the arm and the hand muscles of the subject, and the force/torque applied to the object. 
+An important restriction to take in account while trying to predict this event, is that for a GAL we can use only data collected in past series and not use the futures one.  
+This restriction is due to the fact that in a real world application there would be no access to future data.
 
-  The study aims to find a correlation between the GAL and the EEG  that could be applied on developing techniques for the control of prosthetic devices. More in general EEG lay at the base of non invasive brain computer interface BCI\cite{BCI}, that doesn't depends on neuromuscular control and therefore could be used to help patient with heavy neuromuscular disorder to interact with the environment (such as patient who have lost hand function). 
+The study aims to find a correlation between the GAL and the EEG  that could be applied on developing techniques for the control of prosthetic devices. More in general EEG lay at the base of non invasive brain computer interface BCI\cite{BCI}, that doesn't depends on neuromuscular control and therefore could be used to help patient with heavy neuromuscular disorder to interact with the environment (such as patient who have lost hand function). 
 
-  \section{Performance Criterion}
-  %(classification error, AUC, mean average-precision, etc.)
-  We will use mean column-wise Area Under the Curve (AUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
+\section{Performance Criterion}
+%(classification error, AUC, mean average-precision, etc.)
+We will use mean column-wise Area Under the Curve (AUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
 
-  \section{Problem Formulation}
+\section{Problem Formulation}
+The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  A corresponding events file describes the event corresponding to the data file.
 
-  \section{Algorithm}
-  %(the one(s) used in the reference papers)
+The test set consists of data files for 12 subjects performing GAL\@.
 
-  The reference implementation uses 
+The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
+
+The input can be represented by a feature vector of size 32(m).  
+Due to `No future data' rule, we should be careful to center/scale the data only till the series which is being processed at that instant.
+
+We will use logistic regression to classify the input events.  We need to use six different classifiers with each corresponding to one of the hand events described in introduction section.  Logistic regression is given by the function
+\begin{align*}
+  J(\theta) = & \frac{1}{m} \sum_{i = 1}^{m} \mathrm{Cost}(h_{\theta}(x^{i}), y^{(i)}) \\
+  = & -\frac{1}{m} [\sum_{i=1}^{m} y^{(i)} \log{h_{\theta}(x^{(i)} )} + (1 - y^{(i)}) \log{( 1 - h_{\theta}(x^{(i)}) )}]
+\end{align*}
+
+  Where,
+  h is the sigmoid function of theta.
+
+  \(\theta\) is the error funcction
+
+  We then minimize \(J(\theta)\) using stochastic gradient descent to find the optimal classifier for the given input set.
+
+\section{Algorithm}
+The algorithm used in the baseline consists of two main approaches. The first one applies Logistic Regression and Linear Discriminant Analysis (LDA) on features describing the sample of the dataset. The second one uses Neural Network in a not event-specific way. Convolutional Neural Network is trained to find the correlation between all electrode at equal time (2D spatial correlation) and the correlation between a current event with a set of samples from the past events (1D temporal correlation). Recurrent Neural Network is also used to find temporal correlation.
 
 
 \section{Baseline method, algorithm, software}
@@ -58,25 +78,26 @@ We consider the scripts with most accurate results in the Kaggle competition for
 The baseline method uses Logistic regression with LDA for providing an event specific view of the data.  There were also two level1 Neural Network approaches that were not event specific.
 
 The model consists of using a covariance matrix for encoding the spatial information between the electrodes.  It was found that low frequency data has considerable predective information.  So a ``Filter bank'' approach was used to give more weightage to low frequency data.
- 
-\section{short description of the dataset}
+
+\section{Short description of the dataset}
 The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
 In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not all mutually exclusive meaning that some of  them could be 1 at the same time.  
 
-  \begin{thebibliography}{1}
-    \bibitem{kaggle} Kaggle competition:  https://www.kaggle.com/c/grasp-and-lift-eeg-detection
-    \bibitem{experiment} http://www.nature.com/articles/sdata201447
-    \bibitem{BCI}D. J. McFarland and J. R. Wolpaw. Brain-computer interfaces for communication and control.
-Commun. ACM, 54(5):60?66, May 2011.
-    \bibitem{baseline}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
-    \bibitem{model}https://hal.inria.fr/hal-00830491/file/journal.pdf
-    \bibitem{features1}http://www.laccei.org/LACCEI2010-Peru/published/EInn156\_Delgado.pdf
-    \bibitem{features2}Autoregressive Estimation of Short Segment Spectra for Computerized EEG Analysis Jansen, Ben H.Bourne, John R. Ward, James W. Department of Electrical and Biomedical Engineering, School of
-Engineering, School of Medicine, Vanderbilt University. 
-    \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
-    \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
-  \end{thebibliography} 
+\begin{thebibliography}{1}
+  \bibitem{kaggle} Kaggle competition:  https://www.kaggle.com/c/grasp-and-lift-eeg-detection
+  \bibitem{experiment} http://www.nature.com/articles/sdata201447
+  \bibitem{BCI}D. J. McFarland and J. R. Wolpaw. Brain-computer interfaces for communication and control.
+    Commun. ACM, 54(5):60?66, May 2011.
+  \bibitem{baseline}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
+  \bibitem{model}https://hal.inria.fr/hal-00830491/file/journal.pdf
+  \bibitem{features1}http://www.laccei.org/LACCEI2010-Peru/published/EInn156\_Delgado.pdf
+  \bibitem{features2}Autoregressive Estimation of Short Segment Spectra for Computerized EEG Analysis Jansen, Ben H.Bourne, John R. Ward, James W. Department of Electrical and Biomedical Engineering, School of
+    Engineering, School of Medicine, Vanderbilt University. 
+  \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
+  \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
+  \bibitem{kaggledata}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/data
+\end{thebibliography} 
 
 
-  \end{document}
-  %% end of file `docultexmm.tex'
+\end{document}
+%% end of file `docultexmm.tex'
