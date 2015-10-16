@@ -37,7 +37,7 @@ The main goal of this project  is to identify hand motions from scalp electroenc
 \item Replace: replacing the object in its original position.
 \item BothReleased: releasing the finger from the object. 
 \end{enumerate}
-The training dataset contains the exact moment when this events occurred during the GAL, that were measured using the 3D position of both the hand and object, electromyography signal (EMG) coming form the arm and the head muscles of the subject, and the force/torque applied to the object. An important restriction to take in account while trying to predict this event, is that for a GAL we can use only data collected in past series and not use the futures one. Meaning that when we analyse a subject performing  a GAL we can uses all the data generated in the past ones but not in the future one. This restriction is due to the fact that in real world application there is not access to future data.
+The training dataset contains the exact moment when this events occurred during the GAL, that were measured using the 3D position of both the hand and object, electromyography signal (EMG) coming form the arm and the head muscles of the subject, and the force/torque applied to the object. An important restriction to take in account while trying to predict this event, is that for a GAL we can use only data collected in past series and not use the future one. Meaning that when we analyse a subject performing  a GAL we can uses all the data generated in the past ones but not in the future one. This restriction is due to the fact that in real world application there is not access to future data.
 
 
 The study aims to find a correlation between the GAL and the EEG  that could be applied on developing techniques for the control of prosthetic devices. More in general EEG lay at the base of non invasive brain computer interface BCI \cite{BCI}, that doesn't depends on neuromuscular control and therefore could be used to help patient with heavy neuromuscular disorder to interact with the environment(such as patient who have lost hand function). 
@@ -58,15 +58,21 @@ G_\lambda^X=\nabla_{\lambda }\log u_\lambda(X)
 \end{equation}
 This gradient (which dimension depends only on $M$), represent the direction in which the parameters $\lambda$ should change in order to fit the model in a better way.
 Then the similarity between two samples in the dataset $X$, $Y$ it's given by the Fisher Kernel (as described in \cite{fisher}):
-\begin{equation}
+\begin{equation}\label{fisherKernel}
 K(X,Y)=G_\lambda^{X^{'}}F_\lambda^{-1} G_\lambda^Y
 \end{equation} 
 where $F_\lambda$ is the Fisher information matrix:
 \begin{equation}
-F_\lambda=E_{x~u_\lambda}[ G_\lambda^XG_\lambda^{X^{'}}]
+F_\lambda=E_{x\sim u_\lambda}[ G_\lambda^XG_\lambda^{X^{'}}]
 \end{equation} 
-that could be decomposed as $F_{-\lambda}=L_\lambda^{'}L_\lambda$
-
+that could be decomposed as $F_{-1}^\lambda=L_\lambda^{'}L_\lambda$. Then the (\ref{fisherKernel}) could be written as a dot product between two vector:
+$$
+K(X,Y)=\mathcal{G}_\lambda^{X'}\mathcal{G}_\lambda^{Y}
+$$ 
+where:
+$$
+\mathcal{G}_\lambda^{X}=L_\lambda G_\lambda^X=L_\lambda \nabla_{\lambda }\log u_\lambda(X)  
+$$
 
 
 
@@ -79,25 +85,15 @@ that could be decomposed as $F_{-\lambda}=L_\lambda^{'}L_\lambda$
 
 \section{baseline method, algorithm, software}
 %(including relevant bibliographic references/urls)
-The kaggle competition winners \cite{kaggle} provided a solution based on three level. The first level is dedicated to features extraction using mainly two different methods. The first one uses Covariance matrices  estimated using a sliding window (of around 500 samples ). Considering the six event to predict and the absence of them we can model seven different brain states to predict. They estimated the geometric mean of the covariance matrices, producing in this way a seven dimensional feature vector. The second one is based on the fact that the signal contains predictive information in low frequency, so they used a  "Filter Bank" approach to extract this features. Then they combine the results obtained with this two methods to generate the final set of features. 
+The kaggle competition winners \cite{kaggle} provided a solution based on three level. The first level is dedicated to features extraction using mainly two different methods. The first one uses Covariance matrices  estimated using a sliding window (of around 500 samples ). Considering the six events to predict and the absence of them we can model seven different brain states to predict. They estimated the geometric mean of the covariance matrices, producing in this way a seven dimensional feature vector. The second one is based on the fact that the signal contains predictive information in low frequency, so they used a  "Filter Bank" approach to extract this features. Then they combine the results obtained with this two methods to generate the final set of features. 
 The main algorithms used for this level are Logistic Regression, Convolutional Neural network and Recurrent Neural Network. 
-
-The second level of the model is trained on the prediction that came from the first level and generate metafeatures that are used in the third level. They applied several different algorithms using bootstrap aggregating to increase the accuracy.
-
-In the third level, predictions from the second level are used to maximise  AUC, while avoid overfitting. 
  
 %a feature vector of size 7. This procedure can be viewed as a supervised manifold embedding with a Riemannian metric.
 
-
-
-
-
-
-
 \section{short description of the real-world datasets}
 (scales and size of the dataset, missing data, etc.)\\
-The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.\\
-In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not mutually exclusive meaning that more then one of the can be 1 at the same time.\\
+The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
+In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not all mutually exclusive meaning that some of  them could be 1 at the same time.  
  
 
 
