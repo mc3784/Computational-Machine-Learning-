@@ -50,9 +50,9 @@ The training set consists of time series information for twelve subjects perform
 
 The test set consists of data files for 12 subjects performing GAL\@.
 
-The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
+The model that we build for learning the data should adhere to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
 
-The input can be represented by a feature vector of size 32(m).  
+The input can be represented by a feature vector of size 32 (m = 32).  
 Due to `No future data' rule, we should be careful to center/scale the data only till the series which is being processed at that instant.
 
 We will use logistic regression to classify the input events.  We need to use six different classifiers with each corresponding to one of the hand events described in introduction section.  Logistic regression is given by the function
@@ -62,6 +62,7 @@ We will use logistic regression to classify the input events.  We need to use si
 \end{align*}
 
   Where,
+
   h is the sigmoid function of theta.
 
   \(\theta\) is the error funcction
@@ -86,13 +87,9 @@ In the dataset each of this event correspond to a binary variable (1 if the even
 \begin{thebibliography}{1}
   \bibitem{kaggle} Kaggle competition:  https://www.kaggle.com/c/grasp-and-lift-eeg-detection
   \bibitem{experiment} http://www.nature.com/articles/sdata201447
-  \bibitem{BCI}D. J. McFarland and J. R. Wolpaw. Brain-computer interfaces for communication and control.
-    Commun. ACM, 54(5):60?66, May 2011.
+  \bibitem{BCI}D. J. McFarland and J. R. Wolpaw. Brain-computer interfaces for communication and control. Commun. ACM, 54(5):60?66, May 2011.
   \bibitem{baseline}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
   \bibitem{model}https://hal.inria.fr/hal-00830491/file/journal.pdf
-  \bibitem{features1}http://www.laccei.org/LACCEI2010-Peru/published/EInn156\_Delgado.pdf
-  \bibitem{features2}Autoregressive Estimation of Short Segment Spectra for Computerized EEG Analysis Jansen, Ben H.Bourne, John R. Ward, James W. Department of Electrical and Biomedical Engineering, School of
-    Engineering, School of Medicine, Vanderbilt University. 
   \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
   \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
   \bibitem{kaggledata}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/data
