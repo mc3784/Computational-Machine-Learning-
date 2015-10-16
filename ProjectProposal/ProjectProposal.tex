@@ -8,15 +8,14 @@ to this document may be directed to that email address.}}
 \begin{document}
 \maketitle
 \newcommand{\slugmaster}{%
-\slugger{siads}{xxxx}{xx}{x}{x--x}}%slugger should be set to juq, siads, sifin, or siims
+\slugger{siads}{xxxx}{xx}{x}{x---x}}%slugger should be set to juq, siads, sifin, or siims
 
-\begin{abstract}
-\end{abstract}
-
-%\begin{keywords}\end{keywords}
-
-%\begin{AMS}\end{AMS}
-
+  \begin{abstract}
+    This project aims to classify a human's hand motions from his EEG signal data.  This will help in developing Brain-Computer Interface prosthetic devices for restoring a patient's ability to perform basic daily tasks.
+    We are provided with time series EEG recordings of the subjects performing the hand actions which we wish to identify.
+    The current implementation which will be used as baseline uses Convolutional Neural Networks for detecting this with an accuracy of 0.98109 MCAUC\@.  
+    We propose to use Logistic regression with Stohastic Gradient Descent for detecting the hand motions with a performance greater than or equal to the baseline.
+  \end{abstract}
 
   \pagestyle{myheadings}
   \thispagestyle{plain}
@@ -56,18 +55,18 @@ to this document may be directed to that email address.}}
   \end{equation} 
   where $F_\lambda$ is the Fisher information matrix:
   \begin{equation}
-    F_\lambda=E_{x~u_\lambda}[ G_\lambda^XG_\lambda^{X^{'}}]
+    F_\lambda = E_{x \sim u_{\lambda}}[ G_{\lambda}^{X} G_{\lambda}^{X^{'}}]
   \end{equation} 
   that could be decomposed as $F_{-\lambda}=L_\lambda^{'}L_\lambda$
 
 
   \section{algorithm}
-  (the one(s) used in the reference papers)
+  %(the one(s) used in the reference papers)
 
 
 \section{baseline method, algorithm, software}
 %(including relevant bibliographic references/urls)
-The kaggle competition winners\cite{kaggle} provided a solution based on three levels. The first level is dedicated to features extraction using mainly two different methods. The first one uses Covariance matrices  estimated using a sliding window (of around 500 samples ). Considering the six events to predict and the absence of them we can model seven different brain states to predict. They estimated the geometric mean of the covariance matrices, producing in this way a seven dimensional feature vector. The second one is based on the fact that the signal contains predictive information in low frequency, so they used a  "Filter Bank" approach to extract this features. Then they combine the results obtained with this two methods to generate the final set of features. 
+The kaggle competition winners\cite{kaggle} provided a solution based on three levels. The first level is dedicated to features extraction using mainly two different methods. The first one uses Covariance matrices  estimated using a sliding window (of around 500 samples). Considering the six events to predict and the absence of them we can model seven different brain states to predict. They estimated the geometric mean of the covariance matrices, producing in this way a seven dimensional feature vector. The second one is based on the fact that the signal contains predictive information in low frequency, so they used a ``Filter Bank'' approach to extract this features. Then they combine the results obtained with this two methods to generate the final set of features. 
 The main algorithms used for this level are Logistic Regression, Convolutional Neural network and Recurrent Neural Network. 
  
 %a feature vector of size 7. This procedure can be viewed as a supervised manifold embedding with a Riemannian metric.
