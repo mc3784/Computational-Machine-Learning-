@@ -47,10 +47,12 @@ The study aims to find a correlation between the GAL and the EEG  that could be 
 We will use mean column-wise Area Under the Curve (AUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
 
 \section{Problem Formulation}
-The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  A corresponding events file describes the event corresponding to the data file.
+The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  A corresponding events file describes the event corresponding to the data file.\\
+The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
+
 
 %%%%%%%%%%%%%%%%%%%%CHANGED PART
-Each signal is sampled with a 500Hz frequency. We will divide the signal in several fixed interval of times $T$, that will be an hyper parameter for the program. Each of this temporal window will contain a fixed number of data points. Considering the sampling frequency of the data set, the minimum size of the windows will be $0.2 s$ (so to contain at list 100 data points). 
+Each signal is sampled with a 500Hz frequency. We will divide the signal in several fixed interval of times, each of this temporal window will contain a fixed number of data points $N$, that will be an hyper parameter for the program. Considering the sampling frequency of the data set, the minimum size of the windows will be $0.2 s$ (so to contain at list 100 data points). 
 %We will then sample data points in this interval with a frequency $f_s$, that will be another hyper parameter of the program, so the number of sample point considered in the window will be:
 %$$
 %N=Tf_s
@@ -61,15 +63,17 @@ For each of this window we can then write the Discrete Fourier Transformation (D
   F(n) =\sum_{k=0}^{N-1}x(k)e^{\frac{2\pi i kn}{N}}
 \end{equation}  
 Ranging $k$ from $0$ to $N-1$ this equation represent the $N$ frequencies that describe the wave inside the window.\\
-Applying the Fast Fourier Transformation (FFT) algorithm\cite{FFT} we will calculate all this frequencies for all windows in the signal. This process will be applied to each of the signals in the data set. The training data set consists of $96$ files with $32$ signals each. Approximately a file has $200,000$ data point, then the total number of data point is $96\times 32 \times 200,000$. If we take window of $N=100$ number of samples we will have $96\times 32 \times 2,000=6,144,000$ discrete Fourier transformation. 
+Applying the Fast Fourier Transformation (FFT) algorithm\cite{FFT} we will calculate all this frequencies for all windows in the signal. This process will be applied to each of the signals in the data set. The training data set consists of $96$ files with $32$ signals each. Approximately a file has $200,000$ data point, then the total number of data points is $96\times 32 \times 200,000$. If we take windows of $N=100$ number of samples we will have $96\times 32 \times 2,000=6,144,000$ discrete Fourier transformation, and each of them will generate a vector $x_t$. So we will have a set of $X=\{x_t,t=1\dots T\}$ sample vectors. The probability density function  $u_\lambda$  that models this samples
+depends on the parameters $[\lambda_1\dots \lambda_M]$ that represent the set of feature that we what to calculate. We will use the Fisher Vector\cite{fisher} with the Stochastic Gradient Descent algorithm to find the features that maximise the log-likelihood:
+\begin{equation}\label{loglikelihood}
+G_\lambda^X= \nabla_\lambda \log u_\lambda(X)
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%
 
 %The test set consists of data files for 12 subjects performing GAL\@.
-The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
-
-The input can be represented by a feature vector of size 32 (m = 32).  
-Due to `No future data' rule, we should be careful to center/scale the data only till the series which is being processed at that instant.
+%The input can be represented by a feature vector of size 32 (m = 32).  
+%Due to `No future data' rule, we should be careful to center/scale the data only till the series which is being processed at that instant.
 
 We will use logistic regression to classify the input events.  We need to use six different classifiers with each corresponding to one of the hand events described in introduction section.  Logistic regression is given by the function
 \begin{align*}
@@ -120,6 +124,7 @@ In the dataset each of this event correspond to a binary variable (1 if the even
   \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
   \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
   \bibitem{kaggledata}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/data
+  \bibitem{fisher}https://hal.inria.fr/hal-00830491/file/journal.pdf
   \bibitem{FFT}Fast Fourier Transforms, Connexions online book edited by C. Sidney Burrus, with chapters by C. Sidney Burrus, Ivan Selesnick, Markus Pueschel, Matteo Frigo, and Steven G. Johnson (2008)
   \bibitem{baselineSoftware} https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge/tree/master/lvl1
   \bibitem{hardwarespecifications} https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge\#hardware
