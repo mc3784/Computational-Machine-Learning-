@@ -1,5 +1,6 @@
 \documentclass[final,leqno,onefignum,onetabnum]{siamltexmm}
 \usepackage{amsmath}
+\usepackage{paralist}
 
 \title{Project proposal: Grasp-and-Lift EEG Detection\thanks{From a Kaggle competition}} 
 
@@ -89,11 +90,22 @@ The algorithm used in the baseline consists of two main approaches. The first on
 
 
 \section{Baseline method, algorithm, software}
-%(including relevant bibliographic references/urls)
 We consider the scripts with most accurate results in the Kaggle competition for baseline\cite{kaggleleaderboard}.  We use the first level implementation by \textit{Cat \& Dog}\cite{kagglewinners} as our baseline.
-The baseline method uses Logistic regression with LDA for providing an event specific view of the data.  There were also two level1 Neural Network approaches that were not event specific.
+The baseline method uses Logistic regression with LDA for providing an event specific view of the data.  There were also two level-1 Neural Network approaches that were not event specific.
+A small Recurrent Neural Networks trained on lowpass filtered signal and a small Convolutional Neural Network that is trained on a current sample and a subsampled portion of past samples.
 
-The model consists of using a covariance matrix for encoding the spatial information between the electrodes.  It was found that low frequency data has considerable predective information.  So a ``Filter bank'' approach was used to give more weightage to low frequency data.
+We attempted to run the baseline software\cite{baselineSoftware} in a commodity ubuntu virtual machine.  Since the hardware specifications\cite{hardwarespecifications} are far far higher than that available to us right now, we had to find out innovative ways to get the baseline running.
+
+\begin{itemize}
+  \item In our first attempt, We tried installing all the dependencies mentioned in an Ubuntu virtual machine and started the level1 scripts.  The scripts ran for more than 8 hours before getting killed due to exceptions.
+  \item We figured out that it is better to run the script in a system with more compute resources.  So we tried running the script in NYU HPC clusters.  But due to incompatibility of the required softwares we were unable to get the code running there too.
+  \item The third option was to create a local VM and run the script on a subset of the original samples.  We figured out that there can be two strategies for getting the sub samples.  
+    \begin{inparaenum}[\itshape a\upshape)]
+      \item Run the script on the complete GAL series for a fewer number of subjects.
+      \item Run the script on the fewer number of series for a all the subjects.
+    \end{inparaenum}
+    After trying out the first option, we figured out that running the script on fewer series for all subjects will be faster in the commodity machine that we use.  We trimmed down all the training data and event files to 4000 lines (approximately one series) and ran the baseline
+\end{itemize}
 
 \section{Short description of the dataset}
 The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
@@ -108,8 +120,9 @@ In the dataset each of this event correspond to a binary variable (1 if the even
   \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
   \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
   \bibitem{kaggledata}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/data
-
   \bibitem{FFT}Fast Fourier Transforms, Connexions online book edited by C. Sidney Burrus, with chapters by C. Sidney Burrus, Ivan Selesnick, Markus Pueschel, Matteo Frigo, and Steven G. Johnson (2008)
+  \bibitem{baselineSoftware} https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge/tree/master/lvl1
+  \bibitem{hardwarespecifications} https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge\#hardware
 \end{thebibliography} 
 
 
