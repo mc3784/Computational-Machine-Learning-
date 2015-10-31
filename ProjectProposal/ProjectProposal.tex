@@ -48,8 +48,6 @@ We will use mean column-wise Area Under the Curve (AUC) for evaluating the perfo
 \section{Problem Formulation}
 The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  A corresponding events file describes the event corresponding to the data file.
 
-
-
 %%%%%%%%%%%%%%%%%%%%CHANGED PART
 Each signal is sampled with a 500Hz frequency. We will divide the signal in several fixed interval of times $T$, that will be an hyper parameter for the program. Each of this temporal window will contain a fixed number of data points. Considering the sampling frequency of the data set, the minimum size of the windows will be $0.2 s$ (so to contain at list 100 data points). 
 %We will then sample data points in this interval with a frequency $f_s$, that will be another hyper parameter of the program, so the number of sample point considered in the window will be:
@@ -57,13 +55,12 @@ Each signal is sampled with a 500Hz frequency. We will divide the signal in seve
 %N=Tf_s
 %$$
 For each of this window we can then write the Discrete Fourier Transformation (DFT) as:
-\begin {equation}\label{DFT}
-F(n) =\sum_{k=0}^{N-1}x(k)e^{\frac{2\pi i kn}{N}}
+\begin{equation}
+  \label{DFT}
+  F(n) =\sum_{k=0}^{N-1}x(k)e^{\frac{2\pi i kn}{N}}
 \end{equation}  
 Ranging $k$ from $0$ to $N-1$ this equation represent the $N$ frequencies that describe the wave inside the window.\\
 Applying the Fast Fourier Transformation (FFT) algorithm\cite{FFT} we will calculate all this frequencies for all windows in the signal. This process will be applied to each of the signals in the data set. The training data set consists of $96$ files with $32$ signals each. Approximately a file has $200,000$ data point, then the total number of data point is $96\times 32 \times 200,000$. If we take window of $N=100$ number of samples we will have $96\times 32 \times 2,000=6,144,000$ discrete Fourier transformation. 
-
- 
 
 %%%%%%%%%%%%%%%%%%%%
 
@@ -79,13 +76,13 @@ We will use logistic regression to classify the input events.  We need to use si
   = & -\frac{1}{m} [\sum_{i=1}^{m} y^{(i)} \log{h_{\theta}(x^{(i)} )} + (1 - y^{(i)}) \log{( 1 - h_{\theta}(x^{(i)}) )}]
 \end{align*}
 
-  Where,
+Where,
 
-  h is the sigmoid function of theta.
+h is the sigmoid function of theta.
 
-  \(\theta\) is the error funcction
+\(\theta\) is the error funcction
 
-  We then minimize \(J(\theta)\) using stochastic gradient descent to find the optimal classifier for the given input set.
+We then minimize \(J(\theta)\) using stochastic gradient descent to find the optimal classifier for the given input set.
 
 \section{Algorithm}
 The algorithm used in the baseline consists of two main approaches. The first one applies Logistic Regression and Linear Discriminant Analysis (LDA) on features describing the sample of the dataset. The second one uses Neural Network in a not event-specific way. Convolutional Neural Network is trained to find the correlation between all electrode at equal time (2D spatial correlation) and the correlation between a current event with a set of samples from the past events (1D temporal correlation). Recurrent Neural Network is also used to find temporal correlation.
@@ -111,7 +108,7 @@ In the dataset each of this event correspond to a binary variable (1 if the even
   \bibitem{kagglewinners}https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge
   \bibitem{kaggleleaderboard}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/leaderboard
   \bibitem{kaggledata}https://www.kaggle.com/c/grasp-and-lift-eeg-detection/data
-  
+
   \bibitem{FFT}Fast Fourier Transforms, Connexions online book edited by C. Sidney Burrus, with chapters by C. Sidney Burrus, Ivan Selesnick, Markus Pueschel, Matteo Frigo, and Steven G. Johnson (2008)
 \end{thebibliography} 
 
