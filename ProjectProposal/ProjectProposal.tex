@@ -111,8 +111,10 @@ We attempted to run the baseline software\cite{baselineSoftware} in a commodity 
     After trying out the first option, we figured out that running the script on fewer series for all subjects will be faster in the commodity machine that we use.  We trimmed down all the training data and event files to 4000 lines (approximately one series) and ran the baseline
 \end{itemize}
 
+Unfortunately, inspite of all these attempts spanning over two weeks to get the baseline running 
+
 \section{Short description of the dataset}
-The  datasets consist of data collected with 12 subjects, each of them performing 10 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
+The  datasets consist of data collected with 12 subjects, each of them performing 30 series, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a  training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
 In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not all mutually exclusive meaning that some of  them could be 1 at the same time.  
 
 \begin{thebibliography}{1}
