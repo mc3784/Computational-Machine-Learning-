@@ -47,7 +47,8 @@ The study aims to find a correlation between the GAL and the EEG  that could be 
 We will use mean column-wise Area Under the Curve (AUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
 
 \section{Problem Formulation}
-The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  A corresponding events file describes the event corresponding to the data file.\\
+The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  
+%A corresponding events file describes the event corresponding to the data file.\\
 The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
 
 
