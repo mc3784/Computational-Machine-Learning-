@@ -45,14 +45,14 @@ This restriction is due to the fact that in a real world application there would
 The study aims to find a correlation between the GAL and the EEG  that could be applied on developing techniques for the control of prosthetic devices. More in general EEG lay at the base of non invasive brain computer interface BCI\cite{BCI}, that doesn't depends on neuromuscular control and therefore could be used to help patient with heavy neuromuscular disorder to interact with the environment (such as patient who have lost hand function). 
 
 \section{Performance Criterion}
-We will use mean column-wise Area Under the Curve (AUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
+We will use Mean Column-wise Area Under the Curve (MCAUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
 
 \section{Problem Formulation}
 The training set consists of time series information for twelve subjects performing 30 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  The 30 GAL series are split across 8 data files with corresponding events files.
 
-The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
+The model we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
 
-Each signal is sampled with a 500Hz frequency. We will divide the signal in several fixed interval of times, each of this temporal window will contain a fixed number of data points $N$, that will be an hyper parameter for the program. Considering the sampling frequency of the data set, the minimum size of the windows will be $0.2 s$ (so to contain at list 100 data points). 
+Each signal is sampled with a 500Hz frequency. We will group the signals in fixed interval of time, each of this temporal window will contain a fixed number of data points $N$, that will be an hyper parameter for the program. Considering the sampling frequency of the data set, the minimum size of the windows will be $0.2 s$ (100 data points inside the temporal window). 
 %We will then sample data points in this interval with a frequency $f_s$, that will be another hyper parameter of the program, so the number of sample point considered in the window will be:
 %$$
 %N=Tf_s
@@ -102,7 +102,7 @@ We attempted to run the baseline software\cite{baselineSoftware} in a commodity 
 
 \begin{itemize}
   \item In our first attempt, We tried installing all the dependencies mentioned in an Ubuntu virtual machine and started the level1 scripts.  The scripts ran for more than 8 hours before getting killed due to exceptions.
-  \item We figured out that it is better to run the script in a system with more compute resources.  So we tried running the script in NYU HPC clusters.  But due to incompatibility of the required softwares we were unable to get the code running there too.
+  \item We figured out that it is better to run the script in a system with more compute resources.  So we tried running the script in NYU HPC clusters.  But due to incompatibility of the required softwares we were unable to get the code running there too even after multiple attempts.  The sample job is available in github link\cite{hpcjob}.
   \item The third option was to create a local VM and run the script on a subset of the original samples.  We figured out that there can be two strategies for getting the sub samples.  
     \begin{inparaenum}[\itshape a\upshape)]
       \item Run the script on the complete GAL series for a fewer number of subjects.
@@ -127,7 +127,8 @@ In the dataset each of this event correspond to a binary variable (1 if the even
   \bibitem{fisher}https://hal.inria.fr/hal-00830491/file/journal.pdf
   \bibitem{FFT}Fast Fourier Transforms, Connexions online book edited by C. Sidney Burrus, with chapters by C. Sidney Burrus, Ivan Selesnick, Markus Pueschel, Matteo Frigo, and Steven G. Johnson (2008)
   \bibitem{baselineSoftware} https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge/tree/master/lvl1
-  \bibitem{hardwarespecifications} https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge\#hardware
+  \bibitem{hardwarespecifications} \url{https://github.com/alexandrebarachant/Grasp-and-lift-EEG-challenge\#hardware}
+  \bibitem{hpcjob} \url{https://raw.githubusercontent.com/mc3784/Computational-Machine-Learning-/master/baseline/level1.q}
 \end{thebibliography} 
 
 
