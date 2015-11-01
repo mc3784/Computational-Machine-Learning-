@@ -4,8 +4,8 @@
 
 \title{Project proposal: Grasp-and-Lift EEG Detection\thanks{From a Kaggle competition}} 
 
-\author{Anirudhan Jegannathan Rajagopalan, Michele Cer\'u\thanks{New York University (\email{ajr619@nyu.edu; mc3784@nyu.edu}). Questions, comments, or corrections
-to this document may be directed to that email address.}}
+\author{Anirudhan J Rajagopalan, Michele Cer\'u\thanks{New York University (\email{ajr619@nyu.edu}; \email{mc3784@nyu.edu}). Questions, comments, or corrections
+to this document may be directed to this email address.}}
 
 \begin{document}
 \maketitle
@@ -45,16 +45,13 @@ This restriction is due to the fact that in a real world application there would
 The study aims to find a correlation between the GAL and the EEG  that could be applied on developing techniques for the control of prosthetic devices. More in general EEG lay at the base of non invasive brain computer interface BCI\cite{BCI}, that doesn't depends on neuromuscular control and therefore could be used to help patient with heavy neuromuscular disorder to interact with the environment (such as patient who have lost hand function). 
 
 \section{Performance Criterion}
-%(classification error, AUC, mean average-precision, etc.)
 We will use mean column-wise Area Under the Curve (AUC) for evaluating the performance of our output.  That is the mean of individual areas under the ROC curve for each predicted columns.
 
 \section{Problem Formulation}
-The training set consists of time series information for twelve subjects performing 8 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  
-%A corresponding events file describes the event corresponding to the data file.\\
+The training set consists of time series information for twelve subjects performing 30 series of GAL tasks.  We are provided with a data file consisting of the EEG recordings from the 32 electrodes.  The 30 GAL series are split across 8 data files with corresponding events files.
+
 The model that we build for learning the data should adher to `No future data' rule\cite{kaggledata} which means that when predicting, we should not use data from the future.  We should also take care not to include data leakage.  For example, we should not center data for a series using the data from future events in the same series.
 
-
-%%%%%%%%%%%%%%%%%%%%CHANGED PART
 Each signal is sampled with a 500Hz frequency. We will divide the signal in several fixed interval of times, each of this temporal window will contain a fixed number of data points $N$, that will be an hyper parameter for the program. Considering the sampling frequency of the data set, the minimum size of the windows will be $0.2 s$ (so to contain at list 100 data points). 
 %We will then sample data points in this interval with a frequency $f_s$, that will be another hyper parameter of the program, so the number of sample point considered in the window will be:
 %$$
