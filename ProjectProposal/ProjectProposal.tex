@@ -16,7 +16,9 @@ to this document may be directed to that email address.}}
   This project aims to classify a human's hand motions from his EEG signal data.  This will help in developing Brain-Computer Interface prosthetic devices for restoring a patient's ability to perform basic daily tasks.
   We are provided with time series EEG recordings of the subjects performing the hand actions which we wish to identify.
   The baseline implemenation uses Convolutional Neural Networks for classifying the hand motion.  The baseline model has an accuracy of 0.98109 MCAUC\@.  
-  We propose to use Logistic regression with Stohastic Gradient Descent for detecting the hand motions with a performance greater than or equal to the baseline.
+  We propose to apply Fast Fourier Transformation on the signals to generate vectors of frequencies and then use the Fisher Vector\cite{fisher} to obtain a set of features. 
+  With these features we will use Logistic regression with Stohastic Gradient Descent for detecting the hand motions.
+  % with a performance greater than or equal to the baseline.
 \end{abstract}
 
 \pagestyle{myheadings}
@@ -65,7 +67,7 @@ For each of this window we can then write the Discrete Fourier Transformation (D
 \end{equation}  
 Ranging $k$ from $0$ to $N-1$ this equation represent the $N$ frequencies that describe the wave inside the window.\\
 Applying the Fast Fourier Transformation (FFT) algorithm\cite{FFT} we will calculate all this frequencies for all windows in the signal. This process will be applied to each of the signals in the data set. The training data set consists of $96$ files with $32$ signals each. Approximately a file has $200,000$ data point, then the total number of data points is $96\times 32 \times 200,000$. If we take windows of $N=100$ number of samples we will have $96\times 32 \times 2,000=6,144,000$ discrete Fourier transformation, and each of them will generate a vector $x_t$. So we will have a set of $X=\{x_t,t=1\dots T\}$ sample vectors. The probability density function  $u_\lambda$  that models this samples
-depends on the parameters $[\lambda_1\dots \lambda_M]$ that represent the set of feature that we what to calculate. We will use the Fisher Vector\cite{fisher} with the Stochastic Gradient Descent algorithm to find the features that maximise the log-likelihood:
+depends on the parameters $[\lambda_1\dots \lambda_M]$ that represent the set of feature that we what to calculate. We will use the Fisher Vector\cite{fisher} to find the features that maximise the log-likelihood:
 \begin{equation}\label{loglikelihood}
 G_\lambda^X= \nabla_\lambda \log u_\lambda(X)
 \end{equation}
@@ -76,7 +78,7 @@ G_\lambda^X= \nabla_\lambda \log u_\lambda(X)
 %The input can be represented by a feature vector of size 32 (m = 32).  
 %Due to `No future data' rule, we should be careful to center/scale the data only till the series which is being processed at that instant.
 
-We will use logistic regression to classify the input events.  We need to use six different classifiers with each corresponding to one of the hand events described in introduction section.  Logistic regression is given by the function
+Once we have the features, we will then use logistic regression to classify the input events.  We need to use six different classifiers with each corresponding to one of the hand events described in introduction section.  Logistic regression is given by the function
 \begin{align*}
   J(\theta) = & \frac{1}{m} \sum_{i = 1}^{m} \mathrm{Cost}(h_{\theta}(x^{i}), y^{(i)}) \\
   = & -\frac{1}{m} [\sum_{i=1}^{m} y^{(i)} \log{h_{\theta}(x^{(i)} )} + (1 - y^{(i)}) \log{( 1 - h_{\theta}(x^{(i)}) )}]
