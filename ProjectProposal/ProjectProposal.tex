@@ -117,6 +117,28 @@ Unfortunately, inspite of all these attempts spanning over two weeks to get the 
 The  datasets consist of data collected with 12 subjects, each consisting of approximately 30 grasp and Lift performed. The Data is divided in a training set, containing the first 8 series for each subject, and  the testing set contains the last two series.
 In the dataset each of this event correspond to a binary variable (1 if the event is present and 0 otherwise), and we see that the list of event always present in the same other, but the event are not all mutually exclusive meaning that some of  them could be 1 at the same time.  
 
+\section{Preprocessing}
+In order to prepare the data for the classification problem, we used the preprocessing EEG library MNE\cite{MNE} that allowed us to load all the potential signals for all the electrodes and deal with them in a compact and cohesive way. The code is uploaded in the github repository\cite{Preprocessing}.\\
+ We converted the data into our training set (eight files) to MNE format. For cross validation we take the series from $1$ to $6$ as the training set and the series $7$ and $8$ as validation set.\\  
+We loaded the data into a RawArray\cite{MNE} that we used to:
+\begin{itemize}
+\item Extract epoch information from the RawArray (using a window of 500 samples), that will be used in future to find event related potential ERP.  
+\item Find the covariance matrix (of dimension $32\times32$) between all the features for the complete series (splitted in training and validation). 
+\end{itemize}
+The extracted epoch value are  three dimensional array ($n_s$, $32$,$500$) where $n_s$ are the number of epoch present in the input files. \\
+We then used the XDawn filter\cite{MNE} to transform the epoch value according to the covariance matrix.\\
+The generated epoch value and the labels are saved in separated files (one for the training set and one for the validation set) as following:\\
+epoch value:\\
+\url{data/processed/subj{0}_train_data.npy }\\
+\url{data/processed/subj{0}_val_data.npy}\\
+labels: \\
+\url{data/processed/subj{0}_train_labels.npy}\\
+\url{data/processed/subj{0}_val_labels.npy}\\
+This are the file that we will use further in the pipeline to learn the model.
+
+
+%We loaded all the data for the training set and stored it in a MNE Raw object.  We divided the signal into a set of $500$ fix-length epochs that are correlated to the event that we want to detect (HandStart, FirstDigitTouch etc.). 
+
 \begin{thebibliography}{1}
   \bibitem{kaggle} Kaggle competition:  \url{https://www.kaggle.com/c/grasp-and-lift-eeg-detection}
   \bibitem{experiment} \url{http://www.nature.com/articles/sdata201447}
@@ -133,6 +155,8 @@ In the dataset each of this event correspond to a binary variable (1 if the even
   \bibitem{hpcjob} \url{https://raw.githubusercontent.com/mc3784/Computational-Machine-Learning-/master/baseline/level1.q}
   \bibitem{orurepo} \url{https://github.com/rajegannathan/grasp-lift-eeg-cat-dog-solution-updated}
   \bibitem{runlog} \url{https://github.com/rajegannathan/grasp-lift-eeg-cat-dog-solution-updated/blob/master/lvl1/typescript}
+  \bibitem{MNE}\url{http://mne-tools.github.io/mne-python-intro/}
+  \bibitem{Preprocessing}\url{https://github.com/rajegannathan/grasp-lift-eeg-detection}
 \end{thebibliography} 
 
 
